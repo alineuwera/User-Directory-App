@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import type { User } from "../types/user";
 import { UserRole } from "../types/user";
 import { useUserContext } from "../context/UserContext";
@@ -8,8 +8,16 @@ import { useUserForm } from "../hooks/useUserForm";
 export default function AddUser() {
   const { register, handleSubmit, formState: { errors }, reset } = useUserForm();
   const [newUser, setNewUser] = useState<User | null>(null);
-  const { dispatch } = useUserContext();
+  const { dispatch, state } = useUserContext();
   const { theme } = useTheme();
+
+  // Load newUser from localStorage on mount (optional)
+  useEffect(() => {
+    const savedNewUser = localStorage.getItem("newUser");
+    if (savedNewUser) {
+      setNewUser(JSON.parse(savedNewUser));
+    }
+  }, []);
 
   const onSubmit = (data: any) => {
     const user: User = {
@@ -21,6 +29,8 @@ export default function AddUser() {
     };
     dispatch({ type: "ADD_USER", payload: user });
     setNewUser(user);
+    // Save newUser to localStorage (optional, if you want to persist the displayed user)
+    localStorage.setItem("newUser", JSON.stringify(user));
     reset();
   };
 

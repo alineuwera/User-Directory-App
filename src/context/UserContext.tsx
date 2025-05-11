@@ -1,42 +1,36 @@
-import { createContext, useContext, useReducer, type ReactNode} from "react";
+import { createContext, useReducer, useEffect } from "react";
+import { useContext } from "react";
 import type { User } from "../types/user";
 
-// Actions
-type Action = 
-  | { type: "ADD_USER"; payload: User };
+type UserState = { users: User[] };
+type UserAction = { type: "ADD_USER"; payload: User } | { type: "REMOVE_USER"; payload: number };
 
-// State
-interface State {
-  users: User[];
-}
+const UserContext = createContext<{
+  state: UserState;
+  dispatch: React.Dispatch<UserAction>;
+}>({ state: { users: [] }, dispatch: () => null });
 
-// Initial state
-const initialState: State = {
-  users: [],
-};
-
-// Reducer
-function userReducer(state: State, action: Action): State {
+const userReducer = (state: UserState, action: UserAction): UserState => {
   switch (action.type) {
     case "ADD_USER":
-      return { ...state, users: [...state.users, action.payload] };
+      return { users: [...state.users, action.payload] };
+    case "REMOVE_USER":
+      return { users: state.users.filter((user) => user.id !== action.payload) };
     default:
       return state;
   }
-}
+};
 
-// Context types
-interface UserContextType {
-  state: State;
-  dispatch: React.Dispatch<Action>;
-}
+export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  // Initialize state from localStorage
+  const [state, dispatch] = useReducer(userReducer, {
+    users: JSON.parse(localStorage.getItem("users") || "[]"),
+  });
 
-// Create Context
-const UserContext = createContext<UserContextType | undefined>(undefined);
-
-// Provider
-export const UserProvider = ({ children }: { children: ReactNode }) => {
-  const [state, dispatch] = useReducer(userReducer, initialState);
+  // Save state to localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem("users", JSON.stringify(state.users));
+  }, [state.users]);
 
   return (
     <UserContext.Provider value={{ state, dispatch }}>
@@ -45,11 +39,4 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   );
 };
 
-// Custom Hook for consuming context
-export function useUserContext() {
-  const context = useContext(UserContext);
-  if (!context) {
-    throw new Error("useUserContext must be used within a UserProvider");
-  }
-  return context;
-}
+export const useUserContext = () => useContext(UserContext);
