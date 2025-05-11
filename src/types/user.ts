@@ -1,3 +1,9 @@
+export enum UserRole {
+  Admin = "Admin",
+  Editor = "Editor",
+  Viewer = "Viewer",
+}
+
 export interface User  {
   id: number;
   name: string;
@@ -7,7 +13,6 @@ export interface User  {
   website?: string;
   company?: {
     name: string;
-    catchPhrase: string;
-    bs: string;
   };
+  role?: UserRole; 
 }
