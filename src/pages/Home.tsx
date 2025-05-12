@@ -20,7 +20,10 @@ export default function Home() {
       });
   }, []);
 
-  if (loading) return <p className="text-center text-gray-500 dark:text-gray-400">Loading...</p>;
+  if (loading)
+    return (
+      <p className="text-center text-gray-500 dark:text-gray-400">Loading...</p>
+    );
 
   const allUsers = [...apiUsers, ...state.users];
 
@@ -32,7 +35,9 @@ export default function Home() {
 
   return (
     <div
-      className={`min-h-screen p-6 ${theme === "dark" ? "bg-gray-900 text-white" : "bg-gray-50 text-gray-900"} transition-colors duration-300`}
+      className={`min-h-screen p-6 ${
+        theme === "dark" ? "bg-gray-900 text-white" : "bg-gray-50 text-gray-900"
+      } transition-colors duration-300`}
     >
       <button
         onClick={toggleTheme}
@@ -40,15 +45,35 @@ export default function Home() {
       >
         {theme === "light" ? (
           <>
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" />
+            <svg
+              className="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"
+              />
             </svg>
             Dark Mode
           </>
         ) : (
           <>
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+            <svg
+              className="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
+              />
             </svg>
             Light Mode
           </>
@@ -56,7 +81,7 @@ export default function Home() {
       </button>
 
       <div className="max-w-4xl mx-auto">
-        <h1 className="text-3xl font-bold mb-6">User Directory</h1>
+        <h1 className="text-3xl font-bold my-10">User Directory</h1>
 
         <input
           type="text"
@@ -71,17 +96,29 @@ export default function Home() {
             filteredUsers.map((user) => (
               <div
                 key={user.id}
-                className={`p-4 rounded-lg shadow-lg hover:shadow-xl transition duration-200 ${theme === "dark" ? "bg-gray-800 text-white" : "bg-white text-gray-900"}`}
+                className={`p-4 rounded-lg shadow-lg hover:shadow-xl transition duration-200 ${
+                  theme === "dark"
+                    ? "bg-gray-800 text-white"
+                    : "bg-white text-gray-900"
+                }`}
               >
                 <h2
-                  className={`text-lg font-semibold ${theme === "dark" ? "text-white" : "text-gray-900"}`}
+                  className={`text-lg font-semibold ${
+                    theme === "dark" ? "text-white" : "text-gray-900"
+                  }`}
                 >
                   {user.name}
                 </h2>
-                <p className={`${theme === "dark" ? "text-gray-300" : "text-gray-600"}`}>{user.email}</p>
+                <p
+                  className={`${
+                    theme === "dark" ? "text-gray-300" : "text-gray-600"
+                  }`}
+                >
+                  {user.email}
+                </p>
                 <Link
                   to={`/users/${user.id}`}
-                  className="text-blue-500 hover:text-blue-600 font-medium transition"
+                  className="inline-block text-blue-600 hover:text-blue-800 font-semibold text-sm px-4 py-2 rounded-md bg-blue-50 hover:bg-blue-100 transition-all duration-200 ease-in-out"
                 >
                   View Profile
                 </Link>

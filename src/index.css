@@ -1,8 +1,15 @@
 @import "tailwindcss";
-body.dark {
-  @apply bg-gray-900 text-white;
+
+html {
+  transition: background-color 0.3s, color 0.3s;
 }
 
-body.light {
-  @apply bg-white text-black;
+html.light {
+  background-color: #ffffff;
+  color: #1f2937;
+}
+
+html.dark {
+  background-color: #1f2937;
+  color: #f3f4f6;
 }

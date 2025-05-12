@@ -7,18 +7,16 @@ import { ThemeProvider } from "./context/ThemeContext";
 
 function App() {
   return (
-    <>
-      <ThemeProvider>
-        <BrowserRouter>
-          <Navbar />
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/users/:id" element={<UserProfile />} />
-            <Route path="/add-user" element={<AddUser />} />
-          </Routes>
-        </BrowserRouter>
-      </ThemeProvider>
-    </>
+    <ThemeProvider>
+      <BrowserRouter>
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/users/:id" element={<UserProfile />} />
+          <Route path="/add-user" element={<AddUser />} />
+        </Routes>
+      </BrowserRouter>
+    </ThemeProvider>
   );
 }
 
